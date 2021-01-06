@@ -4,6 +4,9 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const isProd = process.env.NODE_ENV === 'production'
+const isDev = !isProd
+
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -25,7 +28,11 @@ alias: {
     plugins: [
         new CleanWebpackPlugin(),
         new HTMLWebpackPlugin({
-            template: 'index.html'
+            template: 'index.html',
+    minify: {
+        removeComments: isProd,
+        collapseWhitespace: isProd
+    }
         }),
         new CopyPlugin({
             patterns: [
@@ -42,26 +49,21 @@ alias: {
             {
               test: /\.s[ac]ss$/i,
               use: [
-                  MiniCssExtractPlugin.loader,
-                "css-loader",
-                "sass-loader",
+                MiniCssExtractPlugin.loader,
+                'css-loader',
+                'sass-loader'
               ],
             },
             {
-                test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                  loader: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                  },
-                  options: {
-                    presets: ['@babel/preset-env']
-                  }
+              test: /\.js$/,
+              exclude: /node_modules/,
+              loader: {
+                loader: 'babel-loader',
+                options: {
+                  presets: ['@babel/preset-env']
                 }
               }
-          ],
+            }
+          ]
     }
 }
