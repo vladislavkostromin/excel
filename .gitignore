@@ -2,3 +2,5 @@ dist
 node_modules
 .gitattributes
 package-lock.json
+.gitattributes
+.git
