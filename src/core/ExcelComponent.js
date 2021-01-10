@@ -1,6 +1,4 @@
-import {
-  DomListener
-} from './DomListener';
+import {DomListener} from '@core/DomListener'
 
 export class ExcelComponent extends DomListener {
   constructor($root, options = {}) {
@@ -14,5 +12,9 @@ export class ExcelComponent extends DomListener {
 
   init() {
     this.initDOMListeners()
+  }
+
+  destroy() {
+    this.removeDOMListeners()
   }
 }
